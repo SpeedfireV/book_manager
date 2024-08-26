@@ -66,7 +66,6 @@ class _FriendsPageState extends State<FriendsPage> {
                 ),
               ),
             ),
-            const SizedBox(height: 80),
           ]),
         ),
       ],

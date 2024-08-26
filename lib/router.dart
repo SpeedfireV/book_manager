@@ -22,6 +22,12 @@ final router = GoRouter(navigatorKey: _rootNavigatorKey, routes: [
         GoRoute(
             path: "friend_page",
             name: "friend_page",
-            builder: (context, state) => const FriendPage())
+            builder: (context, state) => const FriendPage(),
+            routes: [
+              GoRoute(
+                  path: "book_page",
+                  name: "book_page_friend_page",
+                  builder: (context, state) => const BookPage())
+            ])
       ])
 ]);
