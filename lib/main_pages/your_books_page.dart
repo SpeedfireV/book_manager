@@ -1,4 +1,6 @@
+import 'package:book_manager/bloc/your_books_page/your_books_bloc.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
 class YourBooksPage extends StatefulWidget {
@@ -79,7 +81,9 @@ class _YourBooksPageState extends State<YourBooksPage> {
                     ),
                     const SizedBox(width: 16),
                     FloatingActionButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        _showSorting(context);
+                      },
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(5)),
                       backgroundColor:
@@ -91,15 +95,19 @@ class _YourBooksPageState extends State<YourBooksPage> {
                     ),
                   ],
                 ),
-                FloatingActionButton.extended(
-                  onPressed: () {
-                    context.go("/add_book");
-                  },
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(5)),
-                  tooltip: 'Increment',
-                  label: const Text("Add Book"),
-                  icon: const Icon(Icons.add),
+                SizedBox(
+                  height: 54,
+                  child: FloatingActionButton.extended(
+                    onPressed: () {
+                      context.go("/add_book");
+                    },
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5)),
+                    tooltip: 'Increment',
+                    label: const Text("Add Book"),
+                    icon: const Icon(Icons.add),
+                    heroTag: "add_book",
+                  ),
                 ),
               ],
             ),
@@ -107,5 +115,80 @@ class _YourBooksPageState extends State<YourBooksPage> {
         ),
       ]),
     );
+  }
+
+  _showSorting(BuildContext context) {
+    return showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5),
+        ),
+        context: context,
+        builder: (sheetContext) {
+          return BlocProvider.value(
+            value: BlocProvider.of<YourBooksBloc>(context), // Fix here
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(width: 40, height: 40),
+                        Text(
+                          "Sorting",
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        SizedBox(
+                          width: 40,
+                          height: 40,
+                          child: IconButton(
+                            onPressed: () {
+                              context.pop();
+                            },
+                            icon: Icon(
+                              Icons.close_rounded,
+                              color: Colors.red,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  BlocBuilder<YourBooksBloc, YourBooksState>(
+                    builder: (context, state) {
+                      SortingDirection selectedSorting =
+                          BlocProvider.of<YourBooksBloc>(context)
+                              .sortingDirection;
+                      return ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: SortingDirection.values.length,
+                        itemBuilder: (context, index) {
+                          SortingDirection sorting =
+                              SortingDirection.values.elementAt(index);
+                          return RadioMenuButton(
+                            groupValue: selectedSorting,
+                            value: sorting,
+                            onChanged: (SortingDirection? newSorting) {
+                              if (newSorting != null) {
+                                BlocProvider.of<YourBooksBloc>(context)
+                                    .add(YourBooksSortingChanged(newSorting));
+                              }
+                            },
+                            child: Text(sorting.name),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }

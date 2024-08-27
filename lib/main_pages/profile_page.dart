@@ -12,11 +12,14 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton.extended(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-        onPressed: () {},
-        label: const Text("Edit Profile"),
-        icon: const Icon(Icons.edit),
+      floatingActionButton: SizedBox(
+        height: 54,
+        child: FloatingActionButton.extended(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+          onPressed: () {},
+          label: const Text("Edit Profile"),
+          icon: const Icon(Icons.edit),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),

@@ -12,27 +12,51 @@ class _BookPageState extends State<BookPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        floatingActionButton: FloatingActionButton.extended(
-          onPressed: () {},
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
-          icon: Icon(Icons.edit),
-          label: Text("Edit Opinion"),
-          heroTag: "edit_opinion",
+        body: Stack(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16),
+          child: Align(
+            alignment: Alignment.bottomCenter,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                FloatingActionButton(
+                  onPressed: () {},
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(5)),
+                  child: Icon(Icons.delete_rounded),
+                  backgroundColor: Colors.red,
+                  heroTag: "edit_opinion",
+                ),
+                SizedBox(
+                  height: 56,
+                  child: FloatingActionButton.extended(
+                    onPressed: () {},
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5)),
+                    icon: Icon(Icons.edit),
+                    label: Text("Edit Opinion"),
+                    heroTag: "edit_opinion",
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
-        body: SizedBox(
+        SizedBox(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(height: 12),
+                SizedBox(height: 16),
                 Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SizedBox(
-                        width: 48,
-                        height: 48,
+                        width: 56,
+                        height: 56,
                         child: FloatingActionButton(
                           onPressed: () {
                             context.pop();
@@ -69,8 +93,9 @@ class _BookPageState extends State<BookPage> {
                 ),
                 SizedBox(height: 8),
                 Text(
-                  "Book Finished On 08.26.2024",
+                  "Book Finished On\n08.26.2024",
                   style: Theme.of(context).textTheme.labelLarge,
+                  textAlign: TextAlign.center,
                 ),
                 SizedBox(height: 32),
                 Text(
@@ -81,6 +106,8 @@ class _BookPageState extends State<BookPage> {
               ],
             ),
           ),
-        ));
+        ),
+      ],
+    ));
   }
 }
